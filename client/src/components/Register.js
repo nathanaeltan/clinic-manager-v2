@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,7 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link as ReactLink } from "react-router-dom";
-
+import { connect } from "react-redux";
+import { setAlert } from "../actions/alert";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -47,9 +48,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Register = () => {
+const Register = props => {
   const classes = useStyles();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password2: ""
+  });
 
+  const { name, email, password, password2 } = formData;
+
+  const onChange = e =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (password !== password2) {
+      props.setAlert("Passwords DO not match", "danger");
+    } else {
+      console.log(formData);
+    }
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -60,7 +81,7 @@ const Register = () => {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={e => onSubmit(e)}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -69,6 +90,8 @@ const Register = () => {
             id="email"
             label="Name"
             name="name"
+            value={name}
+            onChange={e => onChange(e)}
             autoFocus
           />
           <TextField
@@ -79,8 +102,9 @@ const Register = () => {
             id="email"
             label="Email Address"
             name="email"
+            value={email}
+            onChange={e => onChange(e)}
             autoComplete="email"
-            
           />
           <TextField
             variant="outlined"
@@ -91,6 +115,21 @@ const Register = () => {
             label="Password"
             type="password"
             id="password"
+            value={password}
+            onChange={e => onChange(e)}
+            autoComplete="current-password"
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password2"
+            label="Confirm Password"
+            type="password"
+            id="password2"
+            value={password2}
+            onChange={e => onChange(e)}
             autoComplete="current-password"
           />
           <FormControlLabel
@@ -122,4 +161,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default connect(null, { setAlert })(Register);
