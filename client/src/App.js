@@ -14,6 +14,7 @@ import { Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import "typeface-roboto";
 import "./App.css";
+import Calendar from "./components/Calendar";
 
 // Alert Options
 
@@ -33,6 +34,7 @@ const App = () => {
             <Route exact path="/" component={Login} />
             <Switch>
               <Route exact path="/register" component={Register} />
+              <Route exact path="/dashboard" component={Calendar} />
             </Switch>
           </Fragment>
         </Router>
