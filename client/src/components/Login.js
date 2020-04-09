@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link as ReactLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../actions/auth";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -46,9 +48,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = () => {
+const Login = ({ login }) => {
   const classes = useStyles();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+  const { email, password } = formData;
 
+  const onChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    console.log("SUBMIT");
+    login(email, password);
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -59,7 +75,7 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={e => onSubmit(e)}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -70,6 +86,7 @@ const Login = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={e => onChange(e)}
           />
           <TextField
             variant="outlined"
@@ -81,6 +98,7 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={e => onChange(e)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -116,4 +134,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default connect(null, { login })(Login);

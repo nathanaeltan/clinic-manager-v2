@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container";
 import { Link as ReactLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlert } from "../actions/alert";
+import { register } from "../actions/auth";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -48,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Register = props => {
+const Register = ({ setAlert, register }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     name: "",
@@ -66,9 +67,9 @@ const Register = props => {
     e.preventDefault();
 
     if (password !== password2) {
-      props.setAlert("Passwords DO not match", "danger");
+      setAlert("Passwords DO not match", "danger");
     } else {
-      console.log(formData);
+      register({ name, email, password });
     }
   };
   return (
@@ -161,4 +162,4 @@ const Register = props => {
   );
 };
 
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);

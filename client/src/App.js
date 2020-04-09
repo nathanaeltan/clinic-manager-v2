@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -15,7 +15,8 @@ import AlertTemplate from "react-alert-template-basic";
 import "typeface-roboto";
 import "./App.css";
 import Calendar from "./components/Calendar";
-
+import { loadUser } from "./actions/auth";
+import setAuthToken from "./utils/setAuthToken";
 // Alert Options
 
 const alertOptions = {
@@ -23,7 +24,13 @@ const alertOptions = {
   position: "top center"
 };
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Provider store={store}>
       <AlertProvider template={AlertTemplate} {...alertOptions}>
