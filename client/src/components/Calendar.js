@@ -9,13 +9,19 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
-const Calendar = () => {
+
+import { connect } from "react-redux";
+import { Link as ReactLink, Redirect } from "react-router-dom";
+
+const Calendar = ({ isAuthenticated }) => {
   const handleDateClick = e => {
     console.log("CLICKED");
   };
 
   const calendarComponentRef = React.createRef();
-
+  if (!isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <Container style={{ marginTop: "40px" }}>
       <CssBaseline>
@@ -46,4 +52,8 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, null)(Calendar);

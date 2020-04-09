@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../actions/auth";
 function Copyright() {
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Login = ({ login }) => {
+const Login = ({ login, isAuthenticated }) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     email: "",
@@ -65,6 +65,10 @@ const Login = ({ login }) => {
     console.log("SUBMIT");
     login(email, password);
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -134,4 +138,8 @@ const Login = ({ login }) => {
   );
 };
 
-export default connect(null, { login })(Login);
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { login })(Login);
