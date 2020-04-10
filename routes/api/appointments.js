@@ -25,11 +25,11 @@ router.post(
         user: req.user.id,
         patient: req.body.patient,
         date: req.body.date,
-        details: []
+        first_name: patient.first_name,
+        last_name: patient.last_name,
+        diagnosis: patient.diagnosis
       });
-      await newAppointment.details.push({ first_name: patient.first_name });
-      await newAppointment.details.push({ last_name: patient.last_name });
-      await newAppointment.details.push({ diagnosis: patient.diagnosis });
+      
 
       const appt = await newAppointment.save();
       res.json(appt);

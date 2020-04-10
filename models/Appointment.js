@@ -14,7 +14,15 @@ const AppointmentSchema = new Schema({
     type: Date,
     required: true
   },
-  details: []
+  first_name: {
+    type: String
+  },
+  last_name: {
+    type: String
+  },
+  diagnosis: {
+    type: String
+  }
 });
 
 module.exports = Appointment = mongoose.model("appointment", AppointmentSchema);
