@@ -9,18 +9,34 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
+import Box from "@material-ui/core/Box";
 import listPlugin from "@fullcalendar/list";
 import LinearProgress from "@material-ui/core/LinearProgress";
-
+import StatisticComp from "./Statistics";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { getAllAppts, updateAppt } from "../actions/appointment";
+import { Divider, Search } from "semantic-ui-react";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { Redirect } from "react-router-dom";
 
 import Appointment from "./Appointment";
 import CreateAppointment from "./CreateAppointment";
 import { getPatients } from "../actions/patient";
 import swal from "sweetalert";
 import moment from "moment";
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      My Clinic Manager {""}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
 const Calendar = ({
   isAuthenticated,
   getAllAppts,
@@ -104,6 +120,16 @@ const Calendar = ({
         </>
       ) : (
         <CssBaseline>
+          <Grid container justify="space-between">
+            <Grid item>
+              <StatisticComp />
+            </Grid>
+            <Grid item>
+              <Search size="massive" />
+            </Grid>
+          </Grid>
+
+          <Divider />
           <FullCalendar
             header={{
               left: "prev,next, today",
@@ -115,7 +141,7 @@ const Calendar = ({
               minute: "2-digit",
               meridiem: true
             }}
-            aspectRatio="1.4"
+            contentHeight="auto"
             defaultView="dayGridMonth"
             plugins={[
               dayGridPlugin,
@@ -138,6 +164,7 @@ const Calendar = ({
             eventDrop={(event, delta, revertFunc, jsEvent, ui, view) =>
               updateDate(event, delta, revertFunc, jsEvent, ui, view)
             }
+            eventColor="#378006"
           />
         </CssBaseline>
       )}
@@ -148,6 +175,9 @@ const Calendar = ({
         setCreateApptOpen={setCreateApptOpen}
         openCreateAppt={openCreateAppt}
       />
+      <Box mt={8}>
+        <Copyright />
+      </Box>
     </Container>
   );
 };

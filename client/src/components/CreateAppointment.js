@@ -67,6 +67,15 @@ const CreateAppointment = ({
     await addAppt(formData);
     await getAllAppts();
     setCreateApptOpen(false);
+    setDetails({
+      diagnosis: "",
+      last_name: "",
+      first_name: ""
+    });
+    setFormData({
+      patient: "",
+      date: ""
+    });
   };
 
   const { last_name, diagnosis } = details;

@@ -15,6 +15,7 @@ import AlertTemplate from "react-alert-template-basic";
 import "typeface-roboto";
 import "./App.css";
 import Calendar from "./components/Calendar";
+import Patient from "./components/Patient";
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
 // Alert Options
@@ -43,6 +44,7 @@ const App = () => {
 
               <SidebarComp>
                 <Route exact path="/dashboard" component={Calendar} />
+                <Route exact path="/patients" component={Patient} />
               </SidebarComp>
             </Switch>
           </Fragment>
