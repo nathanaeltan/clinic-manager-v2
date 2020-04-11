@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -9,10 +9,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import moment from "moment";
 import ReactSelect from "react-select";
 import { connect } from "react-redux";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { addAppt, getAllAppts } from "../actions/appointment";
+
 const CreateAppointment = ({
   dateSelected,
   setCreateApptOpen,
@@ -64,13 +64,12 @@ const CreateAppointment = ({
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log("SUBMITTING");
     await addAppt(formData);
     await getAllAppts();
     setCreateApptOpen(false);
   };
 
-  const { last_name, diagnosis, first_name } = details;
+  const { last_name, diagnosis } = details;
   return (
     <div>
       <Dialog

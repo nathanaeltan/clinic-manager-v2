@@ -9,7 +9,7 @@ import Navbar from "./components/layout/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Alerts from "./components/layout/Alert";
-
+import SidebarComp from "./components/layout/Sidebar";
 import { Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import "typeface-roboto";
@@ -36,12 +36,14 @@ const App = () => {
       <AlertProvider template={AlertTemplate} {...alertOptions}>
         <Router>
           <Fragment>
-            <Navbar />
             <Alerts />
-            <Route exact path="/" component={Login} />
             <Switch>
+              <Route exact path="/" component={Login} />
               <Route exact path="/register" component={Register} />
-              <Route exact path="/dashboard" component={Calendar} />
+
+              <SidebarComp>
+                <Route exact path="/dashboard" component={Calendar} />
+              </SidebarComp>
             </Switch>
           </Fragment>
         </Router>

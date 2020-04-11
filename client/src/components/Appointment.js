@@ -6,7 +6,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
 import { connect } from "react-redux";

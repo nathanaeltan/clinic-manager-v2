@@ -9,16 +9,18 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "@fullcalendar/list/main.css";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import listPlugin from "@fullcalendar/list";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { connect } from "react-redux";
-import { Link as ReactLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { getAllAppts, updateAppt } from "../actions/appointment";
 
 import Appointment from "./Appointment";
 import CreateAppointment from "./CreateAppointment";
 import { getPatients } from "../actions/patient";
-
+import swal from "sweetalert";
+import moment from "moment";
 const Calendar = ({
   isAuthenticated,
   getAllAppts,
@@ -28,12 +30,11 @@ const Calendar = ({
   updateAppt
 }) => {
   useEffect(() => {
-    loading = false;
     setTimeout(() => {
       getAllAppts();
       getPatients();
-    }, 5000);
-  }, []);
+    }, 3000);
+  }, [getAllAppts, getPatients]);
 
   const [open, setOpen] = React.useState(false);
   const [openCreateAppt, setCreateApptOpen] = React.useState(false);
@@ -51,7 +52,6 @@ const Calendar = ({
     const data = appointments.filter(
       i => i._id === calEvent.event.extendedProps.appt_id
     );
-    console.log(data);
     setApptData(data[0]);
     setOpen(true);
   };
@@ -73,17 +73,34 @@ const Calendar = ({
   });
 
   const updateDate = (event, delta, revertFunc, jsEvent, ui, view) => {
-    console.log("UPDAING");
-    console.log(event.event);
-    updateAppt(event.event.extendedProps.appt_id, event.event.start);
-    console.log("UPDATED");
+    swal({
+      title: "Are you sure?",
+      text: `Do you want to move the appointment to ${moment(
+        event.event.start
+      ).format("MMMM Do YYYY, h:mm a")}?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willUpdate => {
+      if (willUpdate) {
+        updateAppt(event.event.extendedProps.appt_id, event.event.start).then(
+          () => {
+            swal("Successfully Updated", {
+              icon: "success"
+            });
+          }
+        );
+      } else {
+        event.revert();
+      }
+    });
   };
 
   return (
-    <Container style={{ marginTop: "40px" }}>
+    <Container style={{ marginTop: "40px", marginLeft: 0, marginRight: 0 }}>
       {loading ? (
         <>
-          <CircularProgress />
+          <LinearProgress style={{ marginTop: "500px" }} />
         </>
       ) : (
         <CssBaseline>
@@ -100,7 +117,12 @@ const Calendar = ({
             }}
             aspectRatio="1.4"
             defaultView="dayGridMonth"
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            plugins={[
+              dayGridPlugin,
+              timeGridPlugin,
+              interactionPlugin,
+              listPlugin
+            ]}
             selectable="true"
             selectHelper="true"
             editable="true"
