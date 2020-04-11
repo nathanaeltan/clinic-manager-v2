@@ -9,13 +9,38 @@ import Slide from "@material-ui/core/Slide";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
+import { connect } from "react-redux";
+import swal from "sweetalert";
+
+import { deleteAppt } from "../actions/appointment";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Appointment = ({ apptData, open, setOpen }) => {
+const Appointment = ({ apptData, open, setOpen, deleteAppt }) => {
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleDelete = () => {
+    swal({
+      title: "Are you sure?",
+      text: "The Appointment will be deleted permanently",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willDelete => {
+      if (willDelete) {
+        deleteAppt(apptData._id).then(res => {
+          swal("Successfully Deleted", {
+            icon: "success"
+          });
+        });
+        console.log("Deleted");
+        setOpen(false);
+      } else {
+        setOpen(false);
+      }
+    });
   };
 
   return (
@@ -28,7 +53,7 @@ const Appointment = ({ apptData, open, setOpen }) => {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
         maxWidth="sm"
-        fullWidth="true"
+        fullWidth
         style={{ padding: 0 }}
       >
         <Grid container>
@@ -61,7 +86,8 @@ const Appointment = ({ apptData, open, setOpen }) => {
           <Grid item xs={6}>
             <DialogContent>
               <DialogContentText>
-                Appointment Time: {moment(apptData.date).format('MMMM Do YYYY, h:mm a')}
+                Appointment Time:{" "}
+                {moment(apptData.date).format("MMMM Do YYYY, h:mm a")}
               </DialogContentText>
             </DialogContent>
           </Grid>
@@ -71,10 +97,13 @@ const Appointment = ({ apptData, open, setOpen }) => {
           <Button onClick={handleClose} color="primary">
             Close
           </Button>
+          <Button onClick={handleDelete} color="secondary">
+            Delete
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-export default Appointment;
+export default connect(null, { deleteAppt })(Appointment);
