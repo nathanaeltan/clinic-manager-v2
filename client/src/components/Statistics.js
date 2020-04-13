@@ -13,7 +13,9 @@ const StatisticComp = ({ numberOfPatients }) => {
       <Statistic>
         <Statistic.Value>{appt_arr.length}</Statistic.Value>
         <Statistic.Label>
-          Patients Today {moment().format("MMM Do YYYY")}
+          {appt_arr.length > 1
+            ? `Patients Today ${moment().format("MMM Do YYYY")}`
+            : `Patient Today ${moment().format("MMM Do YYYY")}`}
         </Statistic.Label>
       </Statistic>
     </>

@@ -5,7 +5,6 @@ import store from "./store";
 // React Router
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // Component Imports
-import Navbar from "./components/layout/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Alerts from "./components/layout/Alert";

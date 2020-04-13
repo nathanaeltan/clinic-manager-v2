@@ -51,7 +51,6 @@ const Calendar = ({
       getPatients();
     }, 3000);
   }, [getAllAppts, getPatients]);
-
   const [open, setOpen] = React.useState(false);
   const [openCreateAppt, setCreateApptOpen] = React.useState(false);
 
@@ -116,7 +115,7 @@ const Calendar = ({
     <Container style={{ marginTop: "40px", marginLeft: 0, marginRight: 0 }}>
       {loading ? (
         <>
-          <LinearProgress style={{ marginTop: "500px" }} />
+          <LinearProgress style={{ marginTop: "200px" }} />
         </>
       ) : (
         <CssBaseline>

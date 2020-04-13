@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { addAppt, getAllAppts } from "../actions/appointment";
-
+import swal from "sweetalert";
 const CreateAppointment = ({
   dateSelected,
   setCreateApptOpen,
@@ -67,6 +67,12 @@ const CreateAppointment = ({
     await addAppt(formData);
     await getAllAppts();
     setCreateApptOpen(false);
+    swal({
+      title: "Success",
+      text: "Appointment Added",
+      icon: "success",
+      button: "Close"
+    });
     setDetails({
       diagnosis: "",
       last_name: "",

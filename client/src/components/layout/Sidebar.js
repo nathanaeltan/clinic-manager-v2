@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, Icon, Image, Menu, Segment, Sidebar } from "semantic-ui-react";
+import { Icon, Menu, Sidebar, Dropdown } from "semantic-ui-react";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
@@ -30,6 +30,7 @@ const SidebarComp = ({ children, logout }) => {
           vertical
           visible
           width="very wide"
+          style={{ overflow: "visible !important", transition: "overlay" }}
         >
           <Menu.Item as={Link} to="/dashboard">
             <Icon name="calendar" />
@@ -39,8 +40,8 @@ const SidebarComp = ({ children, logout }) => {
             <Icon name="user md" />
             Patients
           </Menu.Item>
-          <Menu.Item as="a">
-            <Icon name="log out" onClick={() => logOut()} />
+          <Menu.Item as="a" onClick={() => logOut()}>
+            <Icon name="log out" />
             Log Out
           </Menu.Item>
         </Sidebar>
